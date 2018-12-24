@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+message resp {
+    required string type = 1;
+    optional bytes bin = 2;
+    optional string dlg = 3;
+    optional bool isEnd = 4;
+}
+
+

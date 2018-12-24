@@ -1,0 +1,56 @@
+syntax = "proto2";
+
+enum act_enum {
+    START = 0;
+    APPEND = 1;
+    END = 2;
+}
+
+enum iType_enum {
+    One = 1;
+    Two = 2;
+    Three = 3;
+    Four = 4;
+}
+
+message audio_m {
+    optional string audioType = 1;
+    optional uint32 sampleRate = 2;
+    optional uint32 sampleBytes = 3;
+    optional uint32 channel = 4;
+}
+
+message param_m {
+    optional string text = 1;
+    optional string res = 2;
+    optional bool useStream = 3;
+
+    optional float volume = 4;
+    optional float speed = 5;
+    optional float pitch = 6;
+
+    optional string env = 7;
+    optional string semRes = 8;
+    optional string ebnfRes = 9;
+    optional iType_enum iType = 10;
+}
+
+message desc_m {
+    optional audio_m audio = 1;
+    optional param_m param = 2;
+}
+
+message extra_m {
+    optional string hook = 1;
+    optional string appId = 2;
+    optional string deviceId = 3;
+    optional string token = 4;
+}
+
+message payload {
+    required act_enum act = 1;
+    optional string obj = 2;
+    optional desc_m desc = 3;
+    optional bytes data = 4;
+    optional extra_m extra = 5;
+}
