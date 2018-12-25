@@ -1,0 +1,603 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Setup.VS.ConfigurationManager</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.VS.ConfigurationManager.Bundle">
+            <summary>Representation of a Wix bundle that is serializable to disk</summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Bundle.#ctor">
+            <summary>Bundle creation forcing variables to be set.</summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Bundle.#ctor(System.Guid,System.String,System.String)">
+            <summary>Bundle creation with values being passed in before hand.</summary>
+            <param name="bundleid"></param>
+            <param name="name"></param>
+            <param name="version"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Bundle.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.ICollection{Microsoft.VS.ConfigurationManager.Package})">
+            <summary>Bundle creation for all parameters being passed in.</summary>
+            <param name="bundleid"></param>
+            <param name="name"></param>
+            <param name="version"></param>
+            <param name="releasepdb"></param>
+            <param name="path"></param>
+            <param name="filetype"></param>
+            <param name="selected"></param>
+            <param name="packages"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Bundle.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Creating a bundle without passing package information
+            </summary>
+            <param name="bundleid"></param>
+            <param name="name"></param>
+            <param name="version"></param>
+            <param name="releasepdb"></param>
+            <param name="path"></param>
+            <param name="filetype"></param>
+            <param name="selected"></param>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.BundleUninstallArguments">
+            <summary>
+              Override the command line for the bundle installation. The last parameter needs to be
+              the log command line parameter.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.LocalInstallLocation">
+            <summary>Location of the package cache on disk</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.BundleId">
+            <summary>Bundle product code</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.Name">
+            <summary>WiX Bundle Product Name</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.Version">
+            <summary>WiX Bundle Version</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.Installed">
+            <summary>Is the bundle installed?</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Bundle.Selected">
+            <summary>Has the user selected this item for uninstall?</summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Bundle.Uninstall">
+            <summary>
+              Initiating an uninstall from the bundle to ensure that force uninstall is first run.
+              Once that has been completed, there can be MSIs that are left behind.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.BundlesAndPackagesStore">
+            <summary>
+            Storing and loading list of bundles and packages.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.BundlesAndPackagesStore.UpgradeCodeHash">
+            <summary>
+            HashSet of UpgradeCode; we should use UpgradeCode to do package search.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.BundlesAndPackagesStore.NoUpgradeCodeProductCodeHash">
+            <summary>
+            HashSet of ProductCode; we should use ProductCode to do package search if there's no UpgradeCode is set.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.BundlesAndPackagesStore.Bundles">
+            <summary>
+            A list of bundles.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Filter">
+            <summary>
+                 This class supports search and replace of strings in bundles. It helps in shortening
+                 text for easier readability.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Filter.CreateFilter(System.String,System.String,System.String)">
+            <summary>
+            Create a filter class object with parameters added.
+            </summary>
+            <param name="name"></param>
+            <param name="source"></param>
+            <param name="target"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Filter.Name">
+            <summary>
+            Name/description of what this text filter does.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Filter.ReplaceSource">
+            <summary>
+            What would you like to search for to replace?
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Filter.ReplaceValue">
+            <summary>
+            What are you going to replace the ReplaceSource with?
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.SystemSettings">
+             <summary>
+               Getting version information and architecture information for use with UninstallAction
+               class. This will define which items are applicable.
+            
+               Source: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832(v=vs.85).aspx
+                     Operating system	                Version number
+                     Windows                             10	10.0*
+                     Windows Server Technical Preview	10.0*
+                     Windows 8.1	                        6.3*
+                     Windows Server 2012 R2	            6.3*
+                     Windows 8	                        6.2
+                     Windows Server 2012	                6.2
+                     Windows 7	                        6.1
+                     Windows Server 2008 R2	            6.1
+                     Windows Server 2008	                6.0
+                     Windows Vista                       6.0
+                     Windows Server 2003 R2	            5.2
+                     Windows Server 2003	                5.2
+                     Windows XP 64-Bit Edition           5.2
+                     Windows XP                          5.1
+                     Windows 2000	                    5.0
+             </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.SystemSettings.Is64">
+            <summary>
+            Returns true for 64 bit system and false for x86.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.SystemSettings.Version">
+            <summary>
+            Returns Major.Minor version as a string back to the caller.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.UninstallAction">
+            <summary>
+              This class is being created to handle any post uninstall actions that are required. In the
+              case of Dev14, this will handle the /force issues found. If multiple post uninstall
+              actions are required, a list can be used to establish dependencies.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.UninstallAction.#ctor">
+            <summary>
+            Constructor to evaluate all values to default values.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.UninstallAction.#ctor(System.Collections.Generic.ICollection{Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration},Microsoft.VS.ConfigurationManager.UninstallAction.TemplateType,System.Collections.Generic.ICollection{Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration},System.String,Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType)">
+            <summary>
+            Constructor to handle the creation of an uninstall action with all information passed in.
+            </summary>
+            <param name="os"></param>
+            <param name="template"></param>
+            <param name="arch"></param>
+            <param name="productcode"></param>
+            <param name="wixobj"></param>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType">
+            <summary>
+            Defined to use either bundle or MSI exec installer
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType.Unset">
+            <summary>
+            Default value for Enum
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType.Bundle">
+            <summary>
+            Represents a bundle for this step
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType.MSI">
+            <summary>
+            Represents an MSI for this step
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType.MSU">
+            <summary>
+            Represents an MSU for this step
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.UninstallAction.TemplateType">
+            <summary>
+            Identify when this step should run; before or after the uninstall process
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.TemplateType.Unset">
+            <summary>
+            Default value for Enum
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.TemplateType.Pre">
+            <summary>
+            Run this uninstall action before the main uninstall process
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.TemplateType.Post">
+            <summary>
+            Run this uninstall action after the main uninstall process
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.UninstallAction.Arch">
+            <summary>
+            What architectures is this uninstall action valid for
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.Arch.Unset">
+            <summary>
+            Default value for Enum
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.Arch.x86">
+            <summary>
+            Only valid on x86 configurations
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.UninstallAction.Arch.x64">
+            <summary>
+            Only valid on 64-bit configurations
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.UninstallAction.ProductCode">
+            <summary>
+            Maps to the installed product code of the WixObjectType
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.UninstallAction.WixObject">
+            <summary>
+            Is this a bundle or an MSI
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.UninstallAction.Template">
+            <summary>
+            Does this run before or after the normal uninstall process
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.UninstallAction.Architectures">
+            <summary>
+            What architectures is this valid on?
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.UninstallAction.OS">
+            <summary>
+            What OS version is this valid on?
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.UninstallAction.CreateUninstallAction(System.Collections.Generic.ICollection{Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration},System.Collections.Generic.ICollection{Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration},System.String,Microsoft.VS.ConfigurationManager.UninstallAction.TemplateType,Microsoft.VS.ConfigurationManager.UninstallAction.WixObjectType)">
+            <summary>
+            Create an uninstall action with the given parameters
+            </summary>
+            <param name="archs"></param>
+            <param name="oses"></param>
+            <param name="productcode"></param>
+            <param name="template"></param>
+            <param name="objecttype"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Primitives">
+            <summary>
+            Publically available actions for handling uninstall actions
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.MachineOSVersion">
+            <summary>
+            Current machine OS version
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.MachineArchitectureConfiguration">
+            <summary>
+            Current machine architecture
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.Processed">
+            <summary>
+            Flag for ensuring data is loaded successfully.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.DoNotExecuteProcess">
+            <summary>
+                 Used to debug on development machine. Prevents execution of bundle uninstall and
+                 msi uninstalls.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.DataFilesPath">
+            <summary>
+                 The location where you want files written to when creating output files.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.DebugReporting">
+            <summary>
+                 string of releases that can be passed in to initiate an uninstall for.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.UninstallActions">
+            <summary>
+            A set of uninstall actions that will be done either before or after the main uninstall process
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.Filters">
+            <summary>
+            List of filters (search and replace) to be applied to text
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.Progress">
+            <summary>
+            Accepts a List of Filter (class) object that provides search and replace on for
+            text in product and msi names. Helps shorten output. Progress
+            indicator value when running an uninstall
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Primitives.ReleaseOutput">
+            <summary>
+                 Provides a string that reports on the releases supported and selected
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.ApplyFilter(System.String)">
+            <summary>
+                 Using the List of Filter classes, do a replace of strings per the user's
+                 specification.
+            </summary>
+            <param name="Source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.Dispose">
+            <summary>
+            Explicit disposal of objects
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.GetAllInstalledItems">
+            <summary>
+            GetInstalledItems lists all items that are installed on this machine.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.CleanupVisualStudioFolders(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Clean up Visual Studio folders.
+            </summary>
+            <param name="vsInstallPaths"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.CleanupVisualStudioRegistryHives">
+            <summary>
+            Clean up HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio 
+            Clean up HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.CleanupSecondaryInstallerCache">
+            <summary>
+            Cleanup %ProgramData%\Microsoft\VisualStudioSecondaryInstaller
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.RecursivelyDeleteFolder(System.String)">
+            <summary>
+            delete a folder and all its content
+            </summary>
+            <param name="folder"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.Initialize">
+            <summary>
+                 Locate PDB files on disk and store them in the release object
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.LoadFromDataFile(System.String)">
+            <summary>
+            Load from a data file.
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.LoadFromDataFile(System.IO.Stream)">
+             <summary>
+             Load from a data file stream.
+             </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.LoadFromFile(System.String)">
+            <summary>
+                 <para>
+                      Given a file that has been serialized out, this will read in the file and
+                      hydrate the object model for a list of InstallableItem.
+                 </para>
+                 <para>
+                      It specifically takes a directory to read all BIN files associated. If an
+                      invalid BIN file is found, it will report an error and the loop will continue.
+                 </para>
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.Save(System.Collections.Generic.ICollection{Microsoft.VS.ConfigurationManager.Bundle})">
+            <summary>
+                 <para>
+                      Takes a list of InstallableItem and converts it to binary output.
+                 </para>
+                 <para>
+                      This is used after data is extracted from a wixpdb using
+                      Primitive.GetDataFromPdb()
+                 </para>
+            </summary>
+            <param name="installable"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.SaveToDataFile">
+            <summary>
+            Save BundlesAndPackageStore object to a data file.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.Uninstall(Microsoft.VS.ConfigurationManager.Package)">
+            <summary>
+            Uninstall a specific WiX MSI
+            </summary>
+            <param name="package"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.InstalledVisualStudioReport">
+            <summary>
+            Report what Visual Studio's were installed on this system.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.Uninstall">
+            <summary>
+            Uninstall Visual Studio 2013/2015/vNext
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.Dispose(System.Boolean)">
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Primitives.LoadFromWixpdb(System.String)">
+            <summary>
+            Load a wixpdb
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Package">
+            <summary>
+            Representation of a WiX MSI with pertinent information for running an uninstall.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Package.PackageType">
+            <summary>
+            Definition of what type of Package will be set.  Uninstall directives will be different for each.
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Package.PackageType.MSI">
+            <summary>
+            MSI type
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Package.PackageType.MSU">
+            <summary>
+            MSU type
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Package.PackageType.EXE">
+            <summary>
+            Redistributables or other bundles
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.InstallDate">
+            <summary>
+            When was the MSI installed
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.InstallLocation">
+            <summary>
+            Location of file that initiated the installation
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.ProductCode">
+            <summary>
+            WiX MSI product code
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.UpgradeCode">
+            <summary>
+            WiX MSI upgrade code
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.ProductName">
+            <summary>
+            Wix MSI Product Name
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.ProductVersion">
+            <summary>
+            Wix MSI Product Version
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.Url">
+            <summary>
+            Wix MSI URL value in the case of download
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.ChainingPackage">
+            <summary>
+            Wix MSI Chaining Package value
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.Type">
+            <summary>
+            What set of uninstall instructions should be used is defined by the type of installer that was provided.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Package.#ctor">
+            <summary>
+            Constructor to initialize variables necessary for the rest of configuration
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Package.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Passing in all fields on creation of an instance
+            </summary>
+            <param name="upgradecode"></param>
+            <param name="productcode"></param>
+            <param name="productversion"></param>
+            <param name="productname"></param>
+            <param name="chainingpackage"></param>
+            <param name="installDate"></param>
+            <param name="installLocation"></param>
+            <param name="url"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Package.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Passing in all fields on creation of an instance
+            </summary>
+            <param name="productcode"></param>
+            <param name="productversion"></param>
+            <param name="productname"></param>
+            <param name="chainingpackage"></param>
+            <param name="installDate"></param>
+            <param name="installLocation"></param>
+            <param name="url"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Package.#ctor(System.String,System.String,System.String,System.String,Microsoft.VS.ConfigurationManager.Package.PackageType)">
+            <summary>
+            Overloaded value to allow a different value for PackageType to be set.
+            </summary>
+            <param name="productcode"></param>
+            <param name="productversion"></param>
+            <param name="productname"></param>
+            <param name="chainingpackage"></param>
+            <param name="installDate"></param>
+            <param name="installLocation"></param>
+            <param name="url"></param>
+            <param name="type"></param>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.MSUUninstallArguments">
+            <summary>
+                 <para> Override for the MSI uninstall command line installation. </para>
+                 - /x command is already in place.
+                 - /L*V command is already in place.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Package.MSIUninstallArguments">
+            <summary>
+                 <para> Override for the MSI uninstall command line installation. </para>
+                 - /x command is already in place.
+                 - /L*V command is already in place.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Package.ToString">
+            <summary>
+            Returns the product name of this instantiation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Package.Uninstall">
+            <summary>
+                 Initiating an uninstall from the MSI to ensure that force uninstall is first run.
+                 Once that has been completed, there can be MSIs that are left behind.
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,522 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VS.ConfigurationManager.Support</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration">
+            <summary>
+            Defining an architecture as x86 or 64-bit
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration.#ctor(System.String)">
+            <summary>
+            Setting the property value
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration.Value">
+            <summary>
+            Property for holding value
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration.x64">
+            <summary>
+            64-bit property for use in the UninstallAction class
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration.x86">
+            <summary>
+            32-bit property for use in the UninstallAction class
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ArchitectureConfiguration.Architectures">
+            <summary>
+            Generating a list of Architectures supported.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.ConfigurationManagerException">
+            <summary>
+            Custom exceptions derived from base class
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ConfigurationManagerException.#ctor">
+            <summary>
+            Default constructor for exception
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ConfigurationManagerException.#ctor(System.String)">
+            <summary>
+            Constructor with message only
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ConfigurationManagerException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor with message and inner exception
+            </summary>
+            <param name="message"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ConfigurationManagerException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Protected constructor for exception
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.RebootRequiredException">
+            <summary>
+            Exception to let user know that a reboot is required.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RebootRequiredException.#ctor">
+            <summary>
+            Default constructor for exception
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RebootRequiredException.#ctor(System.String)">
+            <summary>
+            Constructor with message only
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RebootRequiredException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor with message and inner exception
+            </summary>
+            <param name="message"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RebootRequiredException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Protected constructor for exception
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.NoSourceFilesAvailableForParsingException">
+            <summary>
+            Exception when WixPdbs are unavailable and configuration files are unavailable.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.NoSourceFilesAvailableForParsingException.#ctor">
+            <summary>
+            Default constructor for exception
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.NoSourceFilesAvailableForParsingException.#ctor(System.String)">
+            <summary>
+            Constructor with message only
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.NoSourceFilesAvailableForParsingException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor with message and inner exception
+            </summary>
+            <param name="message"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.NoSourceFilesAvailableForParsingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Protected constructor for exception
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.ElevationDetection">
+            <summary>
+            Class to determine if a user has run the application with administrative priviledges.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.ElevationDetection.#ctor">
+            <summary>
+            Constructor that sets whether permission is available to read the registry and uninstall.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.ElevationDetection.Level">
+            <summary>
+            Property that defines a user has permission.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.Logger">
+            <summary>All logging capabilites for class run through these trace listeners</summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel">
+            <summary>Defining event types that can be written out.</summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel.None">
+            <summary>No value provided and default to writing errors out</summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel.Error">
+            <summary>Write an error message</summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel.Warning">
+            <summary>Write a warning message</summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel.Information">
+            <summary>Write informational message</summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel.Verbose">
+            <summary>Write a verbose message</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.Logger.Debug">
+            <summary>
+              Setting debug property to do verbose logging or generating warnings only.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.Logger.LoggingLevel">
+            <summary>
+            Define what level of logging should be done
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.Logger.LogLocation">
+            <summary>Log location used for this instance of the object</summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.Logger.ConsoleOutput">
+            <summary>
+            Property to force information to the console window
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Logger.Log(System.Exception,System.String)">
+            <summary>
+            With passed exceptions, information is written to log
+            </summary>
+            <param name="ex"></param>
+            <param name="sourcelocation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Logger.Log(System.Exception)">
+            <summary>With passed exceptions, information is written to log</summary>
+            <param name="ex"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Logger.Log(System.String,Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel,System.String)">
+            <summary>
+            Logging source location as well as event level
+            </summary>
+            <param name="logtext"></param>
+            <param name="eventlevel"></param>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Logger.LogWithOutput(System.String,Microsoft.VS.ConfigurationManager.Support.Logger.MessageLevel,System.String)">
+            <summary>
+            Logging source location as well as event level
+            </summary>
+            <param name="logtext"></param>
+            <param name="eventlevel"></param>
+            <param name="source"></param>
+            <param name="consoleOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.NativeMethods.RegQueryValueEx(System.Int32,System.String,System.Int32,System.UInt32@,System.Text.StringBuilder,System.UInt32@)">
+            <summary>
+            Importing call to allow reading under 3.5
+            </summary>
+            <param name="hKey"></param>
+            <param name="lpValueName"></param>
+            <param name="lpReserved"></param>
+            <param name="lpType"></param>
+            <param name="lpData"></param>
+            <param name="lpcbData"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration">
+            <summary>
+            Listing of operating systems and their versions for use with UninstallAction
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.#ctor(System.String)">
+            <summary>
+            Setting the value property
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Value">
+            <summary>
+            The version number for the given instance.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows2000">
+            <summary>
+            Windows 2000 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsXP">
+            <summary>
+            Windows XP version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsXP64Bit">
+            <summary>
+            Windows XP 64-bit version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows2003">
+            <summary>
+            Windows 2003 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows2003R2">
+            <summary>
+            Windows 2003R2 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsVista">
+            <summary>
+            Windows Vista version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsServer2008">
+            <summary>
+            Windows Server 2008 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsServer2008R2">
+            <summary>
+            Windows Server 2008R2 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows7">
+            <summary>
+            Windows 7 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsServer2012">
+            <summary>
+            Windows Server 2012 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows8">
+            <summary>
+            Windows 8 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows81">
+            <summary>
+            Windows 8.1 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsServer2012R2">
+            <summary>
+            Windows Server 2012R2 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Windows10">
+            <summary>
+            Windows 10 version number
+            </summary>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.WindowsServerTechnicalPreview">
+            <summary>
+            Windows Server Technical Preview version number
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.ToList">
+            <summary>
+            Overloaded function for generating a list of operating systems
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.Item(System.Int32)">
+            <summary>
+            Referencing list via index value
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.GetEnumerator">
+            <summary>
+            Send back list in context of collections
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.OperatingSystemConfiguration.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            System.Collections.IEnumerator implementation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.RegistrySAM">
+            <summary>
+            SAM values for each set of commands and locations.
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.None">
+            <summary>
+            No value assigned
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.QueryValue">
+            <summary>
+            Query verb
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.SetValue">
+            <summary>
+            Set verb
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.CreateSubKey">
+            <summary>
+            Create verb
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.EnumerateSubKeys">
+            <summary>
+            Enumerate verb
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.Notify">
+            <summary>
+            Notify verb
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.CreateLink">
+            <summary>
+            Create link verb
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.WOW64_32Key">
+            <summary>
+            32 bit registry location
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.WOW64_64Key">
+            <summary>
+            64 bit registry location
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.WOW64_Res">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.Read">
+            <summary>
+            Read access permissions
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.Write">
+            <summary>
+            Write access permissions
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.Execute">
+            <summary>
+            Execute access permissions
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegistrySAM.AllAccess">
+            <summary>
+            All access permissions
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.RegHive">
+            <summary>
+            Registry hive locations
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegHive.HKEY_LOCAL_MACHINE">
+            <summary>
+            HKLM
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.RegHive.HKEY_CURRENT_USER">
+            <summary>
+            HKLU
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.RegistryHandler">
+            <summary>
+            Exposing class to read from the registry
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RegistryHandler.GetRegistryKey64(System.UIntPtr,System.String,System.String)">
+            <summary>
+            Reading from the 64 bit hive
+            </summary>
+            <param name="inHive"></param>
+            <param name="inKeyName"></param>
+            <param name="inPropertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RegistryHandler.GetRegistryKey32(System.UIntPtr,System.String,System.String)">
+            <summary>
+            Reading from the 32 bit hive
+            </summary>
+            <param name="inHive"></param>
+            <param name="inKeyName"></param>
+            <param name="inPropertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.RegistryHandler.GetRegKey64(System.UIntPtr,System.String,Microsoft.VS.ConfigurationManager.Support.RegistrySAM,System.String)">
+            <summary>
+            Get registry key call to imports
+            </summary>
+            <param name="inHive"></param>
+            <param name="inKeyName"></param>
+            <param name="in32or64key"></param>
+            <param name="inPropertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.Utility">
+            <summary>
+              Functions and values to allow central logging and execution of processes
+            </summary>
+        </member>
+        <member name="T:Microsoft.VS.ConfigurationManager.Support.Utility.ServiceState">
+            <summary>
+            Setting service state values
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Utility.ServiceState.None">
+            <summary>
+            Do nothing
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Utility.ServiceState.Start">
+            <summary>
+            Start the service
+            </summary>
+        </member>
+        <member name="F:Microsoft.VS.ConfigurationManager.Support.Utility.ServiceState.Stop">
+            <summary>
+            Stop the service
+            </summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Utility.#ctor">
+            <summary>Set properties as part of instantiation.</summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Utility.ReadRegKey(System.String,System.String)">
+            <summary>
+            Registry key reading function with call to native functions
+            </summary>
+            <param name="path"></param>
+            <param name="findkey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Utility.ExecuteProcess(System.String,System.String)">
+            <summary>Launches a process and returns the error code. 0 is success.</summary>
+            <param name="file"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Utility.ServiceAction(System.String,Microsoft.VS.ConfigurationManager.Support.Utility.ServiceState)">
+            <summary>Stopping and starting services required to uninstall MSUs.</summary>
+            <param name="ServiceName"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Microsoft.VS.ConfigurationManager.Support.Utility.TempDir">
+            <summary>Define where the temp directory is located.</summary>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Utility.Dispose(System.Boolean)">
+            <summary>Clean up objects explicitly</summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Microsoft.VS.ConfigurationManager.Support.Utility.Dispose">
+            <summary>Dispose of resources utilitized by Utility item</summary>
+        </member>
+    </members>
+</doc>
