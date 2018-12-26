@@ -1,0 +1,10 @@
+*.o
+*.pid
+*.so
+src/tags
+src/qtk_proxy.so
+src/luaclib
+src/sframe
+src/proxyd
+src/.ycm_extra_conf.py
+*.log

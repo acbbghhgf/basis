@@ -1,0 +1,2 @@
+#define USC_ASR_SDK_APP_KEY "lbpimyv6v5ljigatepkvdmyeh4regdhvxwzlleq6"
+#define USC_ASR_SDK_SECRET_KEY "b22ca56032384571074178de91f69f45"

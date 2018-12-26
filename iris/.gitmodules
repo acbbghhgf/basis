@@ -1,0 +1,6 @@
+[submodule "sframe"]
+	path = sframe
+	url = http://192.168.0.126:3001/qdreamer/sframe.git
+[submodule "framework"]
+	path = framework
+	url = http://192.168.0.126:3001/qdreamer/framework.git

@@ -1,0 +1,36 @@
+import sys,os
+import time
+import socket
+import smtplib
+from email.mime.text import MIMEText
+
+def send_mail(content):
+    msg = MIMEText(content)
+    to='all-monitor@qdreamer.com'
+    f = 'qdreamer_cloud@163.com'
+    passwd = 'zhQdreamer2017'
+    msg['Subject'] = 'server monitor'
+    msg['From'] = f
+    msg['To'] = to
+    try:
+        s = smtplib.SMTP_SSL(timeout=3)
+        s.connect('smtp.163.com')
+        s.login(f, passwd)
+        s.sendmail(f, to, msg.as_string())
+        s.close()
+        return True
+    except Exception, e:
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def send_alert_mail(content):
+    c = []
+    c.append('Datetime: ' + time.asctime())
+    c.append('Host: ' + socket.gethostname())
+    c.append(content)
+    send_mail('\n'.join(c))
+
+
+content = '''

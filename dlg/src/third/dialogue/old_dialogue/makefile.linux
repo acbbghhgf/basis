@@ -1,0 +1,200 @@
+SHELL=bash
+pwd=${shell pwd}
+
+src_dir=wtk third/sqlite third/json third/lua-5.1.4/src qtk#third/sha1 
+src_c=${shell find $(src_dir) -name "*.c"}
+c_objs=$(patsubst %.c,%.o,$(src_c))
+
+test_dir=test/semdlg
+test_c=${shell find $(test_dir) -name "*.c"}
+test_objs=$(patsubst %.c,%.o,$(test_c))
+test_cpp=${shell find $(test_dir) -name "*.cpp"}
+test_cpp_objs=$(patsubst %.cpp,%.o,$(test_cpp))
+
+src_cpp=${shell find $(src_dir) -name "*.cpp"}
+cpp_objs=$(patsubst %.cpp,%.o,$(src_cpp))
+
+lib_objs=$(c_objs) $(cpp_objs)
+objs=$(lib_objs) $(test_objs) ${test_cpp_objs} 
+
+tool_dir=test/tool
+#tool_c=${shell find ${tool_dir} -name "*.c"}
+tool_c=./test/tool/lex.c ./test/tool/vdlg.c #./test/tool/segmenter.c ./test/tool/faq2bin.c ./test/tool/rbin.c #./test/tool/dlg.c #./test/tool/vad.c  ./test/tool/cutwav.c  ./test/tool/echo.c ./test/tool/dlg.c  #./test/tool/vad.c  ./test/tool/cutwav.c  test/tool/chwav.c test/tool/asr.c test/tool/bfio.c test/tool/dlg.c test/tool/echoform.c #test/tool/vad.c test/tool/dsb.c test/tool/dualform.c ./test/tool/usbrecord.c ./test/tool/echo.c ./test/tool/vad.c ./test/tool/vdlg.c ./test/tool/dlg.c  #./test/tool/vad.c ./test/tool/bfio.c ./test/tool/f0.c #./test/tool/dsb6.c ./test/tool/echo.c #test/tool/wavrehdr.c ./test/tool/vdlg.c ./test/tool/dlg.c   #./test/tool/vad.c  ./test/tool/fst.c #./test/tool/conf.c ./test/tool/wavcut.c  ./test/tool/vad.c  # ./test/tool/egram.c ./test/tool/fst.c #./test/tool/chwav.c ./test/tool/dsb.c ./test/tool/echo.c ./test/tool/rec.c  ./test/tool/vdlg.c  #./test/tool/nlpemot.c  #    ./test/tool/vdlg.c ./test/tool/dlg.c   #./test/tool/lm2bin.c ./test/tool/nglm.c ./test/tool/expand.c    ./test/tool/actkg.c ./test/tool/crfact.c ./test/tool/rbin.c  ./test/tool/vad.c  ./test/tool/wavcut.c  ./test/tool/chnpos.c #./test/tool/vlex.c  ./test/tool/faq2bin.c  #./test/tool/rec.c #./test/tool/segmenter.c ./test/tool/faq2bin.c   # #./test/tool/syn.c #./test/tool/pitch.c  #  # ./test/tool/vec2bin.c  ./test/tool/f0.c  ./test/tool/syn.c  ./test/tool/hmmnr.c   ./test/tool/egram.c  ./test/tool/fst.c ./test/tool/vad.c  ./test/tool/snt2vec.c ./test/tool/nlg2.c ./test/tool/chnpos.c  ./test/tool/egram.c    ./test/tool/baike.c 
+tool_e=${patsubst %.c,%,${tool_c}}
+tool_cpp=${shell find ${tool_dir} -name "*.cpp"}
+tool_cpp_e=${patsubst %.cpp,%,${tool_cpp}}
+
+######################################################
+
+
+######################### lib section #####################################
+o_sqlite=./third/sqlite/sqlite3.o
+liblua=./third/lua-5.1.4/src/liblua.a
+libcurl=./third/curl-7.56.1/curl/lib/libcurl.a
+libspeexdsp=#third/xspeex/speexdsp/libspeexdsp/.libs/libspeexdsp.a
+libspeex=#third/xspeex/speex/libspeex/.libs/libspeex.a
+libmad=#./third/libmad-0.15.1b/.libs/libmad.a
+libogg=#./third/libogg-1.3.2/src/.libs/libogg.a
+libusb=#./third/libusb-1.0.20/libusb/.libs/libusb-1.0.a
+libuuid=#./third/libuuid-1.0.3/.libs/libuuid.a
+
+ifeq ($(mkl),1)
+	libs= ${liblua} ${libcurl}
+else
+	libs=${libgoto} ${liblua} ${libogg}  ${libmad}  ${libspeex} ${libspeexdsp} ${libusb} ${libuuid} ${libcurl}
+endif 
+############################################################################
+
+
+############ test section ###############
+test=#./a.out
+test_src=test/test.c
+
+gprof_n=./a.out
+gprof_n=./tool/bfio
+gprof_log=${gprof_n}.txt
+grpof_dot=${gprof_n}.dot
+gprof_png=${gprof_n}.png
+
+
+############### compile section ###############
+# -D USE_SMALLFT -D FIXED_POINT 
+INC =-I .  -I ./third  -I ./third/libogg-1.3.2/include/ -I ./wtk/api  -I ./third/libmad-0.15.1b/  -I ./third/xspeex/speexdsp/include -I ./third/xspeex/speex/include -I third/libusb-1.0.20/libusb/  -I third/libuuid-1.0.3/ -I ./third/curl-7.56.1/include/ -D USE_USB
+
+#icc=1
+ifeq ($(icc),1)
+	CC=/opt/intel/bin/icc
+	CXX=/opt/intel/bin/icc
+else
+	CC=gcc
+	CXX=g++
+endif
+
+dist=0
+ifeq ($(dist),1)
+	OF=-O3 --fast-math -Ofast -march=native -Wall -funroll-loops -Wno-unused-result #-march=native
+	WFLAGS= -Werror 
+	CFLAGS=-Wall $(OF) $(INC) $(DNN_CFLAG) -DUSE_SQL  #-DSQLITE_ENABLE_FTS3	-DSQLITE_ENABLE_FTS3_PARENTHESIS
+else
+	OF=
+	CFLAGS=-Wall $(OF) $(INC) $(DNN_CFLAG) -DUSE_SQL -Wno-write-strings  #-DSQLITE_ENABLE_FTS3	-DSQLITE_ENABLE_FTS3_PARENTHESIS
+	WFLAGS= #-Werror
+endif
+LFLAGS=${libs} ${DNN_LFLAG} ${libs} -lm -lpthread -ldl -lrt -lz  -lasound -ludev -lssl -lcrypto
+
+CFLAGS+=-DHAVE_CONFIG_H
+
+#share=0;
+
+ifdef share 
+CFLAGS+=-fPIC -shared -DLUA_USE_LINUX  #-fvisibility=hidden
+else
+CFLAGS+=-g
+endif
+
+ie=$(shell whereis libiconv|grep "so"|wc -l)
+ifeq (${ie},1)
+	LFLAGS += -liconv
+endif
+
+ifdef share
+lib=libwtkdlg.so
+else
+lib=libwtkdlg.a
+endif
+
+%.o:%.c
+	$(CC) $(CFLAGS) ${WFLAGS} -c -o $@ $<;
+
+%.o:%.cpp
+	$(CXX) $(CFLAGS) ${ATK_INC} -c -o $@ $<
+
+all: ${libs}  $(lib) $(test)  tools
+
+third/sqlite/sqlite3.o:./third/sqlite/sqlite3.c
+ifeq ($(dist),1)
+	$(CC) -O3  -march=native -Wall -funroll-loops -Wno-unused-result -c -o $@ $< 	
+else
+	$(CC) -Wall -funroll-loops -Wno-unused-result -c -o $@ $<
+endif
+
+#.PHONY:tools 
+
+tools:${lib} ${test}
+	for i in  ${tool_cpp_e}; \
+	 	do echo $${i}; \
+		if [ ! -d tool ]; then mkdir tool; fi;\
+		${CXX} $(CFLAGS) -c -o $${i}.o  $${i}.cpp; \
+		${CXX} $(CFLAGS) -o tool/`basename $${i}`  $${i}.o ${test_objs} ${lib} $(LFLAGS)  ; \
+	 done;
+	for i in  ${tool_e}; \
+	 	do echo $${i}; \
+		if [ ! -d tool ]; then mkdir tool; fi;\
+		${CC} $(CFLAGS) ${WFLAGS} -c -o $${i}.o  $${i}.c; \
+		${CXX} $(CFLAGS) ${WFLAGS} -o tool/`basename $${i}`  $${i}.o ${test_objs} ${lib} $(LFLAGS) ; \
+	 done; 
+
+prof:
+	gprof ${gprof_n} >$(gprof_log)
+	python ./shell/gprof2dot.py $(gprof_log) > ${grpof_dot}
+	dot -Tpng -o $(gprof_png) $(grpof_dot)
+
+
+$(lib): $(lib_objs)
+ifdef share
+	echo "share"
+	$(CC) $(CFLAGS) $(LINK_FLAGS) $(lib_objs) -o $(lib)
+	#strip $(lib)
+else
+	ar rv $(lib) $(lib_objs)
+endif
+
+$(test):$(test_src) $(objs)
+	$(CXX) $(CFLAGS)  -o $(test) $(test_src)  ${test_objs} ${test_cpp_objs} $(lib) $(LFLAGS)
+
+t:
+	valgrind  --log-file="v.log" --leak-check=full --show-reachable=yes --track-origins=yes  $(test) >1.txt
+
+
+${liblua}:
+	make -C ./third/lua-5.1.4 linux
+	
+${libcurl}:
+	cd ./third/curl-7.56.1;./configure --prefix=`pwd`/curl --disable-shared --enable-static --disable-ftp --disable-ipv6 --disable-rtsp --disable-tftp --disable-telnet --disable-largefile --disable-smtp --disable-imap --without-libssh2 --without-zlib --without-librtmp --without-libidn --without-gnutls --disable-ldap --disable-ldaps --disable-pop3;make;make install
+
+#${libspeex}:
+#	cd ./third;tar -xvf speexdsp-1.2rc3.tar.gz ;cd ./speexdsp-1.2rc3;./configure;make;
+
+${libusb}:
+	cd ./third;tar -xvf libusb-1.0.20-.tar.gz;cd ./libusb-1.0.20;./configure;make clean all;
+
+${libspeex}:
+	cd third/xspeex/speex;./autogen.sh;./configure;make clean all;
+
+${libspeexdsp}:
+	cd third/xspeex/speexdsp;./autogen.sh;./configure;make clean all;
+
+${libogg}:
+	cd ./third;tar -xvf libogg-1.3.2.tar.gz;cd libogg-1.3.2;./configure;make clean all;
+
+${libmad}:
+	cd third;tar -xvf libmad-0.15.1b.tar.gz; cd  libmad-0.15.1b; ./configure  CFLAGS="-O3";make clean all
+
+${libuuid}:
+	cd third;tar -xvf libuuid-1.0.3.tar.gz;cd  libuuid-1.0.3;./configure  CFLAGS="-O3";make clean all
+    
+
+clean_lib:
+	cd third/xspeex/speex;make clean;
+	cd third/xspeex/speexdsp;make clean;
+	cd third/libmad-0.15.1b;make clean;
+	cd third/libogg-1.3.2;make clean;	
+	cd third/lua-5.1.4/;make clean;
+	cd third/libuuid-1.0.3;make clean;
+	cd third/third/libuuid-1.0.3;make clean;
+
+clean:
+	-rm $(objs) ${lib}
+
+#./configure --prefix=`pwd`/curl --disable-shared --enable-static --disable-ftp --disable-ipv6 --disable-rtsp --disable-tftp --disable-telnet --disable-largefile --disable-smtp --disable-imap --without-libssh2 --without-zlib --without-librtmp --without-libidn --without-gnutls --disable-ldap --disable-ldaps --disable-pop3
+#valgrind  --log-file="v.log" --leak-check=full --show-reachable=yes --track-origins=yes  ./$(test)	

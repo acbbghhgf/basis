@@ -1,0 +1,6 @@
+wtk/os svn://svn.qdreamer2/base/tags/wtk-v0.0.6/wtk/os
+wtk/http	svn://svn.qdreamer2/cloud/tags/http-lz-v0.0.1/src/wtk/http
+third/lua-5.1.4 svn://svn.qdreamer2/base/tags/wtk-v0.0.1/third/lua-5.1.4
+third/sqlite	svn://svn.qdreamer2/base/tags/wtk-v0.0.1/third/sqlite
+third/json svn://svn.qdreamer2/base/tags/wtk-v0.0.1/third/json
+third/sha1 svn://svn.qdreamer2/base/tags/wtk-v0.0.1/third/sha1

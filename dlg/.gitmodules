@@ -1,0 +1,6 @@
+[submodule "src/third/hiredis"]
+	path = src/third/hiredis
+	url = https://github.com/redis/hiredis.git
+[submodule "src/third/framework"]
+	path = src/third/framework
+	url = http://192.168.0.126:3001/qdreamer/framework.git

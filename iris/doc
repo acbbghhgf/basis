@@ -1,0 +1,46 @@
+注册:
+    url     -   /register
+    body    - 
+        { 
+            "type" : "a", 
+            "cpuNumber" : 8,
+            "cpuFrequency": 1,
+            "Memory": 4500,
+			"id": "0.0.0.0"
+        }
+
+注销:
+    url     -   /unregister
+    body    -
+    --
+        注销不是强制要求，可以不发
+
+消息订阅:
+    url     -   /watch
+    body    - 
+    {
+		topic : "id=xxx" / "byte=xxx" / "" (请参考http range)
+    }
+	"": 最新消息
+	如果需要历史信息,请指定id或byte
+
+取消消息订阅:
+    url     - /unwatch
+    body    - json array
+    --
+        取消订阅是强制要求，订阅取消只会在收到取消订阅请求或者连接断开时发生
+
+获取计算服务器列表:
+    url     -   /ahivelist
+    body    -
+    -- 获取计算服务器列表
+
+PUT方法: 消息转发并缓存
+POST方法: 消息不需要缓存直接转发
+
+消息服务器, 计算服务器, 接入服务器, 负载均衡服务器 topic说明
+负载均衡服务器会订阅/start/type(cn.asr.rec, cn.tts等)
+消息服务器在收到用户start请求时会在/start/type topic上传数据,body为script(会携带appId,deviceId,hook信息)
+后续如果有数据到达接入服务器,接入服务器会将数据上传至/appId/deviceId/hook/data topic,计算服务器需订阅,数据结束时,此topic body长度为0
+负载均衡在收到/start/type时,会添加一个id在body中,所以转发给/id topic的body内容为{"id": "xxx", "script": "xxx"}
+计算服务器请将产生的结果以/appId/deviceId/hook上传至消息服务器,计算完成,请将在/stop topic的body中给出上述负载均衡追加的id.

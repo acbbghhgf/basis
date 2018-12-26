@@ -1,0 +1,111 @@
+SHELL=bash
+pwd=${shell pwd}
+
+src_dir=wtk third/json qtk ./third/lua-5.1.4/src
+src_s=${shell find $(src_dir) -name "*.c"}
+fl_file=
+src_c=$(filter-out $(fl_file),$(src_s))
+c_objs=$(patsubst %.c,%.o,$(src_c))
+
+src_cpp=${shell find $(src_dir) -name "*.cpp"}
+cpp_objs=$(patsubst %.cpp,%.o,$(src_cpp))
+
+objs=$(cpp_objs) $(c_objs)
+
+tool_dir=test/tool
+
+tool_c=$(tool_dir)/lex.c $(tool_dir)/vdlg.c
+tool_e=$(patsubst %.c,%,${tool_c})
+
+tool_cpp=${shell find ${tool_dir} -name "*.cpp"}
+tool_cpp_e=$(patsubst %.cpp,%,${tool_cpp})
+
+o_sqlite=./third/sqlite/sqlite3.o
+
+libs=${o_sqlite}
+
+INC=-I. -I./third -I./wtk/api 
+
+dist=1
+ifeq ($(dist),1)
+	OF=-O3 --fast-math -Ofast -march=native -Wall -funroll-loops -Wno-unused-result #-march=native
+	WFLAGS= -Werror 
+	CFLAGS=-Wall $(WFLAGS) $(OF) $(INC) -DUSE_SQL #-DSQLITE_ENABLE_FTST -DSQLITE_ENABLE_FTS3_PARENTHESIS
+else
+	OF=
+	WFLAGS= -Werror 
+	CFLAGS=-Wall $(WFLAGS) $(OF) $(INC) -DUSE_SQL -Wno-write-string #-DSQLITE_ENABLE_FTS3	-DSQLITE_ENABLE_FTS3_PARENTHESIS
+endif
+
+share=1
+ifeq ($(share),1)
+	LFLAGS=-L. -lm -lpthread -ldl -lrt -lz -lasound -ludev -lssl -lcrypto -lreadline -lcurl
+	CFLAGS_S:=${CFLAGS}
+	CFLAGS+=-fPIC -DLUA_USE_LINUX
+	LWTKDLG=-lwtkdlg
+else
+	LFLAGS=-lm -lpthread -ldl -lrt -lz -lasound -ludev -lssl -lcrypto -lcurl
+	CFLAGS+=-g
+	CFLAGS_S=${CFLAGS}
+	LWTKDLG=
+endif
+
+ie=$(shell whereis libiconv|grep "so"|wc -l)
+ifeq (${ie},1)
+	LFLAGS+=-liconv
+endif
+
+ifeq ($(share),1)
+	lib=libwtkdlg.so
+else
+	lib=libwtkdlg.a
+endif
+
+.PHONY:all tools
+
+all:${lib} ${libs} tools
+
+third/sqlite/sqlite3.o:./third/sqlite/sqlite3.c
+ifeq ($(dist),1)
+ifeq ($(share),1)
+	$(CC) -fPIC -O3 -march=native -Wall -funroll-loops -Wno-unused-result -c -o $@ $<
+else
+	$(CC) -O3 -march=native -Wall -funroll-loops -Wno-unused-result -c -o $@ $<
+endif
+else
+	$(CC) -Wall -funroll-loops -Wno-unused-result -c -o $@ $<
+endif
+
+%.o:%.c
+	$(CC) $(CFLAGS) -c -o $@ $<;  
+
+%.o:%.cpp
+	$(CXX) $(CFLAGS) -c -o $@ $<
+
+tools:${lib}
+	for i in  ${tool_cpp}; \
+	 	do echo $${i}; \
+		if [ ! -d tool ]; then mkdir tool; fi;\
+		${CXX} $(CFLAGS_S) -c -o $${i}.o  $${i}.cpp -lwtkdlg; \
+		${CXX} $(CFLAGS_S) -o tool/`basename $${i}` $${i}.o ${lib} $(LFLAGS) ${LWTKDLG} ; \
+	done;
+	for i in  ${tool_e}; \
+	 	do echo $${i}; \
+		if [ ! -d tool ]; then mkdir tool; fi;\
+		${CC} $(CFLAGS_S) -c -o $${i}.o $${i}.c -lwtkdlg; \
+		${CC} $(CFLAGS_S) -o tool/`basename $${i}` $${i}.o  ${lib} $(LFLAGS) ${LWTKDLG}; \
+	done; 
+
+$(lib):$(lib_objs) $(objs)
+ifeq ($(share),1)
+	echo "share"
+	$(CC) $(CFLAGS) -shared $(objs) $(o_sqlite) -o $(lib) $(LFLAGS)
+else
+	ar crv $(lib) $(objs) ${o_sqlite} 
+endif
+clean_lib:
+	rm third/sqlite/sqlite3.o
+
+clean:
+	-rm ${objs} ${lib}
+
